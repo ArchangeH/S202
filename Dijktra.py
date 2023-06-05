@@ -1,7 +1,7 @@
 from typing import List, Tuple
 import numpy as np
 import graphviz as gr
-import Dessin as d
+import Dessin
 INF = float("inf")
 M = [
     [INF, INF, 22, INF],
@@ -15,7 +15,8 @@ def Dijkstra(M: List[List[int]], d: int, arrive: int):
     :param M: Matrice carré à valeur aléatoire
     :param d: sommet de départ
     :param arrive: sommet d'arriver
-    :return:
+    :return: Lance la fonction resToList qui transforme nos résultats en liste pour
+    faciliter les dessins de graphes et la lecture du chemin
     """
     dist = {d: 0}
     pred = {d: d}
@@ -47,47 +48,20 @@ def Dijkstra(M: List[List[int]], d: int, arrive: int):
         print(f"Aucune fleche ne part du départ {d}")
         return None
 
-        mini = INF
-        for k,val in dist.items():
-            if val < mini and k not in v:
-                s = k
-                mini = val
-    if pred[arrive] == None:
+    if pred[arrive] is None:
         return None
     else:
-        return restolist(M, dist, pred, d, arrive)
+        return Dessin.restolist(M, dist, pred, d, arrive)
 
-def restolist(M: List[List[int]], dist, pred, d, a):
-    """
 
-    :param M:
-    :param dist:
-    :param pred:
-    :param d:
-    :param a:
-    :return:
-    """
-    res = [(a, pred[a], dist[a])]
-    distance = res[0][2]
-    while res[0][1] is not None and res[0][0] != d:
-        res.insert(0, (res[0][1], pred[res[0][1]], dist[res[0][1]]))
-        distance += res[0][2]
-
-    if len(res) != 1:
-        res = res[::-1][:-1]
-    for i in range(len(res)):
-        res[i] = (res[i][0], res[i][1], M[res[i][1]][res[i][0]])
-    res.insert(0, (d, d, d))
-    return res
-
-M = d.graphe2(4, 0.3, 1, 62)
-#d.matToGraphe(M).render(format="png", view=True)
+M = Dessin.graphe2(4, 0.3, 1, 62)
+#Dessin.matToGraphe(M).render(format="png", view=True)
 c = Dijkstra(M, 0, 3)
-if c == None:
+if c is None:
     print("Aucun chemin n'a été trouvé")
 else:
     print("Existence d'un chemin")
-    #d.redpath(d.matToGraphe(M), c).render(format="png", view=True)
+    #Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)
     pass
 
 

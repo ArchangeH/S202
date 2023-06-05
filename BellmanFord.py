@@ -6,23 +6,51 @@ import Dessin as d
 INF = float("inf")
 
 def flecheRandom(M):
-    dist = {d: 0}
-    pred = {d: d}
+
     fleche = []
     n = len(M)
     for x in range(n):
-        if x != d:
-            dist[x] = INF
         for y in range(n):
             fleche.append(((x,y), M[x][y]))
     r.shuffle(fleche)
-    return [dist, pred, fleche]
+    return fleche
 
-def BellmanFord(M: List[List[int]], d: int, arrive: int):
-    var = flecheRandom(M)
-    dist = var[0]
-    pred = var[1]
-    fleche = var[2]
+def flechePL(M,s):
+    fleche = []
+    n = len(M)
+    mem ={}  # On colorie tous les sommets en blanc et s (départ) en vert
+    for i in range(n):
+        mem[i] = 1
+    mem[s] = 0
+    file = [s]
+    while file != []:
+        i = file[0]  # on prend le premier terme de la file
+        for j in range(n):  # On enfile les successeurs de i encore blancs:
+            if (M[file[0]][j] == 1 and mem[j] == 1):
+                file.append(j)
+                mem[j] = 0  # On les colorie en vert (sommets visités)
+                fleche.append(((x,y), M[x][y]))  # On les place dans la liste Resultat
+        file.pop(0)  # on défile i (on retire le premier élément)
+    return fleche
+
+
+
+
+
+
+def flechePF(M,d):
+    return 0
+
+
+def BellmanFordRandom(M: List[List[int]], d: int, arrive: int):
+    dist = {d: 0}
+    pred = {d: d}
+    for x in range(n):
+        if x != d:
+            dist[x] = INF
+
+    #fleche = flecheRandom(M)
+    fleche = flechePL(M,d)
     n = len(M)
     # TODO separer le génration des fleche, generation aleatoire, largeur longueur en liste
     #fleche OK
@@ -40,6 +68,8 @@ def BellmanFord(M: List[List[int]], d: int, arrive: int):
         return print("pas de plus court chemin : presence d'un cycle de poids négatif")
     else:
         return restolist(M, dist,pred,d,arrive)
+
+
 
 
 def restolist(M, dist, pred, d, a):

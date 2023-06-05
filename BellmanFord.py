@@ -23,13 +23,13 @@ def flechePL(M,s):
         mem[i] = 1
     mem[s] = 0
     file = [s]
-    while file != []:
+    while file:
         i = file[0]  # on prend le premier terme de la file
-        for j in range(n):  # On enfile les successeurs de i encore blancs:
-            if (M[file[0]][j] == 1 and mem[j] == 1):
-                file.append(j)
-                mem[j] = 0  # On les colorie en vert (sommets visités)
-                fleche.append(((x,y), M[x][y]))  # On les place dans la liste Resultat
+        for y in range(n):  # On enfile les successeurs de i encore blancs:
+            if M[file[0]][y] != INF and mem[y] == 1:
+                file.append(y)
+                mem[y] = 0  # On les colorie en vert (sommets visités)
+                fleche.append(((file[0],y), M[file[0]][y]))  # On les place dans la liste Resultat
         file.pop(0)  # on défile i (on retire le premier élément)
     return fleche
 
@@ -43,6 +43,7 @@ def flechePF(M,d):
 
 
 def BellmanFordRandom(M: List[List[int]], d: int, arrive: int):
+    n = len(M)
     dist = {d: 0}
     pred = {d: d}
     for x in range(n):
@@ -51,6 +52,7 @@ def BellmanFordRandom(M: List[List[int]], d: int, arrive: int):
 
     #fleche = flecheRandom(M)
     fleche = flechePL(M,d)
+    print(fleche)
     n = len(M)
     # TODO separer le génration des fleche, generation aleatoire, largeur longueur en liste
     #fleche OK
@@ -86,6 +88,6 @@ def restolist(M, dist, pred, d, a):
     res.insert(0, (d,d,d))
     return res
 
-M = d.graphe2(4, 0.3, 1, 62)
-c = BellmanFord(M, 0, 3)
+M = d.graphe(8, 1, 62)
+c = BellmanFordRandom(M, 7, 3)
 d.redpath(d.matToGraphe(M), c).render(format="png", view=True)

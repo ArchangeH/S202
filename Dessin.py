@@ -64,10 +64,11 @@ def matToGraphe(M: np.matrix) -> gr.Digraph:
 
 def redpath(graphe: gr.Digraph, chemin: List[Tuple[int, int, int]]) -> gr.Digraph:
     """
-
-    :param graphe:
-    :param chemin:
-    :return:
+    Modifie le dessin d'un graphe pour afficher le chemin en paramètre en couleur (rouge)
+    :param graphe: Graphe de la bibliothèque graphviz
+    :param chemin: Liste de tuples comprenant les informations pour créer un chemin
+    exemple : [(sDepart, sArrivé, poids), ...]
+    :return: Un graphe de la bibliothèque graphviz avec le chemin en paramètre en couleur
     """
 
     for e in chemin:

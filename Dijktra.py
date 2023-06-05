@@ -10,6 +10,13 @@ M = [
     [INF, INF, 30, INF],
     ]
 def Dijkstra(M: List[List[int]], d: int, arrive: int):
+    """
+    Implémentation python de l'algorithme de Dijkstra
+    :param M: Matrice carré à valeur aléatoire
+    :param d: sommet de départ
+    :param arrive: sommet d'arrive
+    :return:
+    """
     dist = {d: 0}
     pred = {d: d}
     v = [d]

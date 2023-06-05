@@ -113,7 +113,7 @@ def BellmanFordR(M: List[List[int]], d: int, arrive: int):
     if nbIter == n:
         print("pas de plus court chemin : presence d'un cycle de poids négatif")
         return None
-    elif not fleche:
+    elif not fleche or pred[arrive] is None:
         print("Aucun chemin n'a ete trouve")
         return None
     else:
@@ -151,7 +151,7 @@ def BellmanFordPL(M: List[List[int]], d: int, arrive: int):
     if nbIter == n:
         print("pas de plus court chemin : presence d'un cycle de poids négatif")
         return None
-    elif not fleche:
+    elif not fleche or pred[arrive] is None:
         print("Aucun chemin n'a ete trouve")
         return None
     else:
@@ -190,7 +190,7 @@ def BellmanFordPP(M: List[List[int]], d: int, arrive: int):
     if nbIter == n:
         print("pas de plus court chemin : presence d'un cycle de poids négatif")
         return None
-    elif not fleche:
+    elif not fleche or pred[arrive] is None:
         print("Aucun chemin n'a ete trouve")
         return None
     else:

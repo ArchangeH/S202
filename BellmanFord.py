@@ -47,35 +47,30 @@ def flechePP(M, s):
 
     while pile:  # tant que la pile n'est pas vide,
         i = pile[-1]  # on prend le dernier sommet i de la pile
+        mem[i] = 0  # on le colorie en vert,
         SuccMem = []  # on crée la liste de ses successeurs non déjà visités (blancs)
         for j in range(n):
             if M[i, j] != INF and mem[j] == 1:
                 SuccMem.append((i,j))
         if SuccMem:  # s'il y en a,
             v = SuccMem[0][1]  # on prend le premier (si on veut l'ordre alphabétique)
-            mem[v] = 0  # on le colorie en vert, 
             pile.append(v)  # on l'empile
-            fleche.append(((SuccMem[0][0], v), M[SuccMem[0][0]][v]))  # on le met en liste rsultat
+            for e in SuccMem:
+                fleche.append(((e[0], e[1]), M[e[0]][e[1]]))  # on le met en liste rsultat
         else:  # sinon:
             pile.pop()  # on sort i de la pile
-
     return fleche
 
 
-def BellmanFordRandom(M: List[List[int]], d: int, arrive: int):
+def BellmanFordR(M: List[List[int]], d: int, arrive: int):
     n = len(M)
     dist = {d: 0}
     pred = {d: d}
     for x in range(n):
         if x != d:
             dist[x] = INF
-
-    # fleche = flecheRandom(M)
-    fleche = flechePP(M, d)
-    print(fleche)
+    fleche = flecheRandom(M)
     n = len(M)
-    # TODO separer le génration des fleche, generation aleatoire, largeur longueur en liste
-    # fleche OK
     modif = True
     nbIter = 0
     while modif == True and nbIter <= n - 1:
@@ -87,9 +82,71 @@ def BellmanFordRandom(M: List[List[int]], d: int, arrive: int):
                 modif = True
         nbIter += 1
     if nbIter == n:
-        return print("pas de plus court chemin : presence d'un cycle de poids négatif")
+        print("pas de plus court chemin : presence d'un cycle de poids négatif")
+        return None
+    elif not fleche:
+        print("Aucun chemin n'a ete trouve")
+        return None
     else:
         return restolist(M, dist, pred, d, arrive)
+
+def BellmanFordPL(M: List[List[int]], d: int, arrive: int):
+    n = len(M)
+    dist = {d: 0}
+    pred = {d: d}
+    for x in range(n):
+        if x != d:
+            dist[x] = INF
+    fleche = flechePP(M, d)
+    n = len(M)
+    modif = True
+    nbIter = 0
+    while modif == True and nbIter <= n - 1:
+        modif = False
+        for e in fleche:
+            if dist[e[0][0]] + e[1] < dist[e[0][1]]:
+                dist[e[0][1]] = dist[e[0][0]] + e[1]
+                pred[e[0][1]] = e[0][0]
+                modif = True
+        nbIter += 1
+    if nbIter == n:
+        print("pas de plus court chemin : presence d'un cycle de poids négatif")
+        return None
+    elif not fleche:
+        print("Aucun chemin n'a ete trouve")
+        return None
+    else:
+        return restolist(M, dist, pred, d, arrive)
+
+def BellmanFordPP(M: List[List[int]], d: int, arrive: int):
+    n = len(M)
+    dist = {d: 0}
+    pred = {d: d}
+    for x in range(n):
+        if x != d:
+            dist[x] = INF
+
+    fleche = flechePP(M, d)
+    n = len(M)
+    modif = True
+    nbIter = 0
+    while modif == True and nbIter <= n - 1:
+        modif = False
+        for e in fleche:
+            if dist[e[0][0]] + e[1] < dist[e[0][1]]:
+                dist[e[0][1]] = dist[e[0][0]] + e[1]
+                pred[e[0][1]] = e[0][0]
+                modif = True
+        nbIter += 1
+    if nbIter == n:
+        print("pas de plus court chemin : presence d'un cycle de poids négatif")
+        return None
+    elif not fleche:
+        print("Aucun chemin n'a ete trouve")
+        return None
+    else:
+        return restolist(M, dist, pred, d, arrive)
+
 
 
 def restolist(M, dist, pred, d, a):
@@ -108,5 +165,9 @@ def restolist(M, dist, pred, d, a):
 
 
 M = d.graphe(8, 1, 62)
-c = BellmanFordRandom(M, 7, 3)
-d.redpath(d.matToGraphe(M), c).render(format="png", view=True)
+c = BellmanFordR(M, 0, 3)
+
+
+if c is not None:
+    print("Existence d'un chemin")
+    d.redpath(d.matToGraphe(M), c).render(format="png", view=True)

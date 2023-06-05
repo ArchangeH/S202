@@ -18,11 +18,11 @@ def perfBF(n:int):
     t = time.perf_counter()
     M = Dessin.graphe(n,0,100)
     for i in range(n):
-        BellmanFord.BellmanFord(M,0,i)
+        BellmanFord.BellmanFordRandom(M,0,i)
     return time.perf_counter()-t
 
-print(perfDij(50))
-print(perfBF(50))
+print(perfDij(200))
+print(perfBF(200))
 
 for i in range(100):
     plt.scatter(i, perfDij(50),color='red')

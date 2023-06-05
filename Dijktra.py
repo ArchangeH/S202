@@ -15,7 +15,8 @@ def Dijkstra(M: List[List[int]], d: int, arrive: int):
     :param M: Matrice carré à valeur aléatoire
     :param d: sommet de départ
     :param arrive: sommet d'arriver
-    :return:
+    :return: Lance la fonction resToList qui transforme nos résultats en liste pour
+    faciliter les dessins de graphes et la lecture du chemin
     """
     dist = {d: 0}
     pred = {d: d}
@@ -47,25 +48,24 @@ def Dijkstra(M: List[List[int]], d: int, arrive: int):
         print(f"Aucune fleche ne part du départ {d}")
         return None
 
-        mini = INF
-        for k,val in dist.items():
-            if val < mini and k not in v:
-                s = k
-                mini = val
-    if pred[arrive] == None:
+    if pred[arrive] is None:
         return None
     else:
         return restolist(M, dist, pred, d, arrive)
 
-def restolist(M: List[List[int]], dist, pred, d, a):
+def restolist(M: List[Tuple[int]], dist, pred, d, a):
     """
-
-    :param M:
-    :param dist:
-    :param pred:
-    :param d:
-    :param a:
-    :return:
+    La fonction resToList qui transforme nos résultats en liste pour
+    faciliter les dessins de graphes et la lecture du chemin
+    :param M: La matrice d'adjascence
+    :param dist: dictionnaire des distances renvoyé par dijkstra
+    :param pred: dictionnaire des predecesseurs renvoyé par dijkstra
+    :param d: le sommet de depart
+    :param a: le sommet d'arrivée
+    :return: Liste de tuple d'entier qui exprime le chemin de la façon suivante :
+    [(sommet, predecesseur, poid), ...]
+    le chemin est à lire de droite à gauche, sur un chemin de longueur 4 on aurait
+    [(fleche 4), (fleche 3), (fleche 2), (fleche 1)] ou chaque fleche est un tuple comme décrit précedemment.
     """
     res = [(a, pred[a], dist[a])]
     distance = res[0][2]
@@ -83,7 +83,7 @@ def restolist(M: List[List[int]], dist, pred, d, a):
 M = d.graphe2(4, 0.3, 1, 62)
 #d.matToGraphe(M).render(format="png", view=True)
 c = Dijkstra(M, 0, 3)
-if c == None:
+if c is None:
     print("Aucun chemin n'a été trouvé")
 else:
     print("Existence d'un chemin")

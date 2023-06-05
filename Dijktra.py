@@ -57,10 +57,6 @@ def restolist(M: List[List[int]], dist, pred, d, a):
         res.insert(0, (res[0][1], pred[res[0][1]], dist[res[0][1]]))
         distance += res[0][2]
 
-    #print(res[-1][2])
-    #print(res[1:])
-# TODO if un element dan res -> element supprimé
-# index error
     if len(res) != 1:
         res = res[::-1][:-1]
     for i in range(len(res)):

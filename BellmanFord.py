@@ -2,12 +2,17 @@ from typing import List, Tuple
 import random as r
 import numpy as np
 import graphviz as gr
-import Dessin as d
+import Dessin
 
 INF = float("inf")
 
 
 def flecheRandom(M):
+    """
+    Alorgorithme d'ordonnencement des flèches aléatoires
+    :param M: La matrice d'adjence à traiter
+    :return: Liste non ordonnées de flèche représentant les chemins de la matrice
+    """
     fleche = []
     n = len(M)
     for x in range(n):
@@ -18,6 +23,13 @@ def flecheRandom(M):
 
 
 def flechePL(M, s):
+    """
+    Algorithme d'ordonnencement des flèches selon le parcours en largeur
+    :param M: La matrice d'adjacence à traiter
+    :param s: le sommet de départ
+    :return: Liste de flèches ordonnées selon un parcours en largeur
+    représentant les chemins de la matrice
+    """
     fleche = [s]
     n = len(M)
     mem = {}  # On colorie tous les sommets en blanc et s (départ) en vert
@@ -37,6 +49,13 @@ def flechePL(M, s):
 
 
 def flechePP(M, s):
+    """
+    Algorithme d'ordonnencement des flèches selon le parcours en profondeur
+    :param M: La matrice d'adjacence à traiter
+    :param s: le sommet de départ
+    :return: Liste de flèches ordonnées selon un parcours en profondeur
+    représentant les chemins de la matrice
+    """
     n = len(M)  # taille du tableau = nombre de sommets
     mem = {}  # On colorie tous les sommets en blanc et s en vert
     for i in range(n):
@@ -63,12 +82,22 @@ def flechePP(M, s):
 
 
 def BellmanFordR(M: List[List[int]], d: int, arrive: int):
+    """
+    Implémentation python de l'algorithme de Bellman Ford
+    avec des flèches non ordonnées (aléatoire)
+    :param M: Matrice carrée à valeur aléatoire
+    :param d: sommet de départ
+    :param arrive: sommet d'arrivée
+    :return: Lance la fonction resToList qui transforme nos résultats en liste pour
+    faciliter les dessins de graphes et la lecture du chemin
+    """
     n = len(M)
     dist = {d: 0}
     pred = {d: d}
     for x in range(n):
         if x != d:
             dist[x] = INF
+            pred[x] = None
     fleche = flecheRandom(M)
     n = len(M)
     modif = True
@@ -88,15 +117,25 @@ def BellmanFordR(M: List[List[int]], d: int, arrive: int):
         print("Aucun chemin n'a ete trouve")
         return None
     else:
-        return restolist(M, dist, pred, d, arrive)
+        return Dessin.restolist(M, dist, pred, d, arrive)
 
 def BellmanFordPL(M: List[List[int]], d: int, arrive: int):
+    """
+    Implémentation python de l'algorithme de Bellman Ford
+    avec des flèches ordonnées selon un parcour en largeur
+    :param M: Matrice carrée à valeur aléatoire
+    :param d: sommet de départ
+    :param arrive: sommet d'arrivée
+    :return: Lance la fonction resToList qui transforme nos résultats en liste pour
+    faciliter les dessins de graphes et la lecture du chemin
+    """
     n = len(M)
     dist = {d: 0}
     pred = {d: d}
     for x in range(n):
         if x != d:
             dist[x] = INF
+            pred[x] = None
     fleche = flechePP(M, d)
     n = len(M)
     modif = True
@@ -116,15 +155,25 @@ def BellmanFordPL(M: List[List[int]], d: int, arrive: int):
         print("Aucun chemin n'a ete trouve")
         return None
     else:
-        return restolist(M, dist, pred, d, arrive)
+        return Dessin.restolist(M, dist, pred, d, arrive)
 
 def BellmanFordPP(M: List[List[int]], d: int, arrive: int):
+    """
+    Implémentation python de l'algorithme de Bellman Ford
+    avec des flèches ordonnées selon un parcours en profondeur
+    :param M: Matrice carrée à valeur aléatoire
+    :param d: sommet de départ
+    :param arrive: sommet d'arrivée
+    :return: Lance la fonction resToList qui transforme nos résultats en liste pour
+    faciliter les dessins de graphes et la lecture du chemin
+    """
     n = len(M)
     dist = {d: 0}
     pred = {d: d}
     for x in range(n):
         if x != d:
             dist[x] = INF
+            pred[x] = None
 
     fleche = flechePP(M, d)
     n = len(M)
@@ -145,29 +194,16 @@ def BellmanFordPP(M: List[List[int]], d: int, arrive: int):
         print("Aucun chemin n'a ete trouve")
         return None
     else:
-        return restolist(M, dist, pred, d, arrive)
+        return Dessin.restolist(M, dist, pred, d, arrive)
 
 
 
-def restolist(M, dist, pred, d, a):
-    res = [(a, pred[a], dist[a])]
-    distance = res[0][2]
-    while res[0][1] is not None and res[0][0] != d:
-        res.insert(0, (res[0][1], pred[res[0][1]], dist[res[0][1]]))
-        distance += res[0][2]
-
-    if len(res) != 1:
-        res = res[::-1][:-1]
-    for i in range(len(res)):
-        res[i] = (res[i][0], res[i][1], M[res[i][1]][res[i][0]])
-    res.insert(0, (d, d, d))
-    return res
 
 
-M = d.graphe(8, 1, 62)
+M = Dessin.graphe(8, 1, 62)
 c = BellmanFordR(M, 0, 3)
 
 
 if c is not None:
     print("Existence d'un chemin")
-    d.redpath(d.matToGraphe(M), c).render(format="png", view=True)
+    Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)

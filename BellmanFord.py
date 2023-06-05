@@ -43,7 +43,7 @@ def flechePP(M, s):
         mem[i] = 1
     mem[s] = 0
     pile = [s]  # on initialise la pile à s
-    fleche = [s]  # on initialise la liste des résultats à s
+    fleche = []  # on initialise la liste des résultats à s
 
     while pile:  # tant que la pile n'est pas vide,
         i = pile[-1]  # on prend le dernier sommet i de la pile
@@ -55,7 +55,7 @@ def flechePP(M, s):
             v = SuccMem[0][1]  # on prend le premier (si on veut l'ordre alphabétique)
             mem[v] = 0  # on le colorie en vert, 
             pile.append(v)  # on l'empile
-            fleche.append(((SuccMem[0][0], v), M[j][v]))  # on le met en liste rsultat
+            fleche.append(((SuccMem[0][0], v), M[SuccMem[0][0]][v]))  # on le met en liste rsultat
         else:  # sinon:
             pile.pop()  # on sort i de la pile
 
@@ -71,7 +71,7 @@ def BellmanFordRandom(M: List[List[int]], d: int, arrive: int):
             dist[x] = INF
 
     # fleche = flecheRandom(M)
-    fleche = flechePL(M, d)
+    fleche = flechePP(M, d)
     print(fleche)
     n = len(M)
     # TODO separer le génration des fleche, generation aleatoire, largeur longueur en liste

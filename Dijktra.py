@@ -14,7 +14,7 @@ def Dijkstra(M: List[List[int]], d: int, arrive: int):
     Implémentation python de l'algorithme de Dijkstra
     :param M: Matrice carré à valeur aléatoire
     :param d: sommet de départ
-    :param arrive: sommet d'arrive
+    :param arrive: sommet d'arriver
     :return:
     """
     dist = {d: 0}
@@ -58,6 +58,15 @@ def Dijkstra(M: List[List[int]], d: int, arrive: int):
         return restolist(M, dist, pred, d, arrive)
 
 def restolist(M: List[List[int]], dist, pred, d, a):
+    """
+
+    :param M:
+    :param dist:
+    :param pred:
+    :param d:
+    :param a:
+    :return:
+    """
     res = [(a, pred[a], dist[a])]
     distance = res[0][2]
     while res[0][1] is not None and res[0][0] != d:

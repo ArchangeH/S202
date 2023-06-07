@@ -62,7 +62,7 @@ if __name__ == "__main__":
     M = Dessin.graphe(n, int(input("quelle est la valeur a de l'itervalle [a,b]")),
                       int(input("quelle est la valeur b de l'itervalle [a,b]")))
     # Décommentez ce code pour utiliser les matrice avec p% de flèche (commentez celui du dessus)
-    # M = Dessin.graphe2(n, int(input("quelle est la proportion p de fleche ? (entre 0 et 1) \n")),
+    # M = Dessin.graphe2(n, float(input("quelle est la proportion p de fleche ? (entre 0 et 1) \n")),
     #                       int(input("quelle est la valeur a de l'itervalle [a,b] ? \n")),
     #                       int(input("quelle est la valeur b de l'itervalle [a,b] ? \n")))
 

@@ -66,8 +66,7 @@ if __name__ == "__main__":
     #                       int(input("quelle est la valeur a de l'itervalle [a,b] ? \n")),
     #                       int(input("quelle est la valeur b de l'itervalle [a,b] ? \n")))
 
-    Dessin.matToGraphe(M).render(format="png", view=True)
-    c = Dijkstra(M, 0, n-1)
+    c = Dijkstra(M, d, s)
     if c is None:
         print("Aucun chemin n'a été trouvé")
     else:

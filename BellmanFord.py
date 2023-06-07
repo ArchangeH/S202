@@ -219,7 +219,6 @@ if __name__ == "__main__":
     #                       int(input("quelle est la valeur a de l'itervalle [a,b] ? \n")),
     #                       int(input("quelle est la valeur b de l'itervalle [a,b] ? \n")))
 
-    Dessin.matToGraphe(M).render(format="png", view=True)
     if a == 1:
         c = BellmanFordR(M, d, s)
     elif a == 2:

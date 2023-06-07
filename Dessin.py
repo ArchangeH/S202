@@ -102,8 +102,6 @@ def restolist(M, dist, pred, d, a):
 
     if len(res) != 1:
         res = res[::-1][:-1]
-    print(res)
-    print(pred, "p")
     for i in range(len(res)):
         res[i] = (res[i][0], res[i][1], M[res[i][1]][res[i][0]])
     res.insert(0, (d, d, d))

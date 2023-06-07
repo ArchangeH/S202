@@ -91,32 +91,32 @@ def BellmanFordR(M: List[List[int]], d: int, arrive: int):
     :return: Lance la fonction resToList qui transforme nos résultats en liste pour
     faciliter les dessins de graphes et la lecture du chemin
     """
-    n = len(M)
+    n = len(M) # Inisatialisation de l'algorithme Bellman Ford
     dist = {d: 0}
     pred = {d: d}
-    for x in range(n):
-        if x != d:
+    for x in range(n): # Pour tout sommet qui n'est pas d
+        if x != d: # affectation d'une valeur par défaut
             dist[x] = INF
             pred[x] = None
-    fleche = flecheRandom(M)
+    fleche = flecheRandom(M) # création de la liste de flèche
     n = len(M)
     modif = True
     nbIter = 0
-    while modif == True and nbIter <= n - 1:
-        modif = False
-        for e in fleche:
-            if dist[e[0][0]] + e[1] < dist[e[0][1]]:
-                dist[e[0][1]] = dist[e[0][0]] + e[1]
+    while modif == True and nbIter <= n - 1: # Tant qu'il y a une modification et que le nombre d'itérations < n - 1
+        modif = False # on met la modification à faux pour éviter les boucle infini (si pas de mises à jour)
+        for e in fleche: # Pour chaque flèche représentée par le tuple : ((predecesseur, sommet), poid)
+            if dist[e[0][0]] + e[1] < dist[e[0][1]]: # si la distance du predecesseur + poid de la fleche < distance du sommet
+                dist[e[0][1]] = dist[e[0][0]] + e[1] # on met à jour les dictionnaire
                 pred[e[0][1]] = e[0][0]
-                modif = True
-        nbIter += 1
-    if nbIter == n:
+                modif = True # on met la modification à vrai
+        nbIter += 1 # on incrémente nbIter
+    if nbIter == n: # si nbIter == n
         print("pas de plus court chemin : presence d'un cycle de poids négatif")
-        return None
-    elif not fleche:
+        return None # on sort du programme, pas de résultat
+    elif not fleche or pred[arrive] is None: # S'il n'y a pas de flèche ou pas de prédecesseur à arrive alors
         print("Aucun chemin n'a ete trouve")
-        return None
-    else:
+        return None # on sort du programme, pas de résultat
+    else: # sinon le chemin est envoyé au programme exprimant le chemin
         return Dessin.restolist(M, dist, pred, d, arrive)
 
 def BellmanFordPL(M: List[List[int]], d: int, arrive: int):
@@ -151,7 +151,7 @@ def BellmanFordPL(M: List[List[int]], d: int, arrive: int):
     if nbIter == n:
         print("pas de plus court chemin : presence d'un cycle de poids négatif")
         return None
-    elif not fleche:
+    elif not fleche or pred[arrive] is None:
         print("Aucun chemin n'a ete trouve")
         return None
     else:
@@ -190,7 +190,7 @@ def BellmanFordPP(M: List[List[int]], d: int, arrive: int):
     if nbIter == n:
         print("pas de plus court chemin : presence d'un cycle de poids négatif")
         return None
-    elif not fleche:
+    elif not fleche or pred[arrive] is None:
         print("Aucun chemin n'a ete trouve")
         return None
     else:
@@ -200,10 +200,12 @@ def BellmanFordPP(M: List[List[int]], d: int, arrive: int):
 
 
 
-M = Dessin.graphe(8, 1, 62)
-c = BellmanFordR(M, 0, 3)
+#M = Dessin.graphe(100, 1, 62)
+#c = BellmanFordR(M, 0, 3)
+#d = BellmanFordPL(M, 0, 3)
+#e = BellmanFordPP(M, 0, 3)
 
 
-if c is not None:
-    print("Existence d'un chemin")
-    Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)
+#if c is not None:
+#    print("Existence d'un chemin")
+#    Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)

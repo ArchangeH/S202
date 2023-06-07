@@ -3,9 +3,15 @@ import random as r
 import numpy as np
 import graphviz as gr
 import Dessin
-
+#D3
 INF = float("inf")
-
+# petite matrice de test
+#M = [
+#    [INF, INF, 22, INF],
+#    [INF, 16, INF, INF],
+#    [INF, 54, INF, 27],
+#    [INF, INF, 30, INF],
+#]
 
 def flecheRandom(M):
     """
@@ -197,15 +203,30 @@ def BellmanFordPP(M: List[List[int]], d: int, arrive: int):
         return Dessin.restolist(M, dist, pred, d, arrive)
 
 
+if __name__ == "__main__":
+    n = int(input("quelle est la taille de la matrice ? \n"))
+    a = int(input("quel implémentation de Bellman Ford voulez vous ? \n"
+              " 1 : flèches aléatoire\n"
+              " 2 : parcours en largeur\n"
+              " 3 : parcours en profondeur\n"))
+    d = int(input(f"quel est le sommet de départ ? (entre 0 et {n-1})"))
+    s = int(input(f"quel est le sommet d'arrivée ? (entre 0 et {n-1})"))
 
+    M = Dessin.graphe(n, int(input("quelle est la valeur a de l'itervalle [a,b]")),
+                      int(input("quelle est la valeur b de l'itervalle [a,b]")))
+    # Décommentez ce code pour utiliser les matrice avec p% de flèche (commentez celui du dessus)
+    # M = Dessin.graphe2(n, int(input("quelle est la proportion p de fleche ? (entre 0 et 1) \n")),
+    #                       int(input("quelle est la valeur a de l'itervalle [a,b] ? \n")),
+    #                       int(input("quelle est la valeur b de l'itervalle [a,b] ? \n")))
 
-
-#M = Dessin.graphe(100, 1, 62)
-#c = BellmanFordR(M, 0, 3)
-#d = BellmanFordPL(M, 0, 3)
-#e = BellmanFordPP(M, 0, 3)
-
-
-#if c is not None:
-#    print("Existence d'un chemin")
-#    Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)
+    Dessin.matToGraphe(M).render(format="png", view=True)
+    if a == 1:
+        c = BellmanFordR(M, d, s)
+    elif a == 2:
+        c = BellmanFordPL(M, d, s)
+    else:
+        c = BellmanFordPP(M, d, s)
+    if c is not None:
+        print("Existence d'un chemin")
+        Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)
+        print(c)

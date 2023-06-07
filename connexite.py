@@ -5,7 +5,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 import random
 import math
-
+#D3
 
 def graphe(n: int,p:int) -> np.matrix:
     """
@@ -73,7 +73,7 @@ def testStatFC2(n,p):
     for i in range(300):
         if FC(graphe(n, p)):
             r += 1
-    return (r * 100 / 300)
+    return r * 100 / 300
 
 
 def seuil(n):
@@ -100,7 +100,6 @@ def graphStatFC():
         if y[-1] > 99.0 and done == False:
             plt.text(x[-1], y[-1], size)
             done = True
-        # print(size,testStatFC(size))
 
     plt.plot(x, y)
     plt.grid()
@@ -112,20 +111,21 @@ def graphStatFC():
 
 # graphStatFC()
 def suiteSeuil():
-
     x = []
     y = []
     for size in tqdm(range(10, 40)):
         x.append(size)
         y.append(seuil(size))
-    plt.plot(x,y)
-    for x in x:
-        plt.plot(x,y[0]+x, color='red')
-        plt.plot(x,math.pow(x,2),color='green')
-    plt.legend(['% fleches 99% de forte connexité','fonction affine', 'fonction puissance'])
+    plt.plot(x,y, color="red")
+    x= [i for i in range(10, 40)]
+    y = [i**2 for i in range(10,40)]
+    plt.plot(x, y,color='green')
+    plt.plot(x, x, color='blue')
+    plt.xlim(10, 40)
+    plt.semilogy()
+    plt.legend(['% fleches 99% de forte connexité', 'fonction puissance', 'fonction affine'])
     plt.xlabel('Taille de la matrice')
     plt.ylabel('seuil de forte connexité')
     plt.show()
-
 
 suiteSeuil()

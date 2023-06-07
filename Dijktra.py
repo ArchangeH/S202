@@ -2,13 +2,16 @@ from typing import List, Tuple
 import numpy as np
 import graphviz as gr
 import Dessin
+#D3
 INF = float("inf")
-M = [
-    [INF, INF, 22, INF],
-    [INF, 16, INF, INF],
-    [INF, 54, INF, 27],
-    [INF, INF, 30, INF],
-]
+# petite matrice de test
+#M = [
+#    [INF, INF, 22, INF],
+#    [INF, 16, INF, INF],
+#    [INF, 54, INF, 27],
+#    [INF, INF, 30, INF],
+#]
+
 def Dijkstra(M: List[List[int]], d: int, arrive: int):
     """
     Implémentation python de l'algorithme de Dijkstra
@@ -51,16 +54,27 @@ def Dijkstra(M: List[List[int]], d: int, arrive: int):
         return Dessin.restolist(M, dist, pred, d, arrive) # sinon le chemin est envoyé au programme exprimant le chemin
 
 
-#M = Dessin.graphe2(4, 0.3, 1, 62)
-#Dessin.matToGraphe(M).render(format="png", view=True)
-#c = Dijkstra(M, 0, 3)
-#if c is None:
-#    print("Aucun chemin n'a été trouvé")
-#else:
-#    print("Existence d'un chemin")
-#    #Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)
-#    pass
+if __name__ == "__main__":
+    n = int(input("quelle est la taille de la matrice ? \n"))
+    d = int(input(f"quel est le sommet de départ ? (entre 0 et {n - 1})"))
+    s = int(input(f"quel est le sommet d'arrivée ? (entre 0 et {n - 1})"))
 
+    M = Dessin.graphe(n, int(input("quelle est la valeur a de l'itervalle [a,b]")),
+                      int(input("quelle est la valeur b de l'itervalle [a,b]")))
+    # Décommentez ce code pour utiliser les matrice avec p% de flèche (commentez celui du dessus)
+    # M = Dessin.graphe2(n, int(input("quelle est la proportion p de fleche ? (entre 0 et 1) \n")),
+    #                       int(input("quelle est la valeur a de l'itervalle [a,b] ? \n")),
+    #                       int(input("quelle est la valeur b de l'itervalle [a,b] ? \n")))
+
+    Dessin.matToGraphe(M).render(format="png", view=True)
+    c = Dijkstra(M, 0, n-1)
+    if c is None:
+        print("Aucun chemin n'a été trouvé")
+    else:
+        print("Existence d'un chemin")
+        Dessin.redpath(Dessin.matToGraphe(M), c).render(format="png", view=True)
+        # pensez à regarder si vous n'avez pas une image ouverte si le graphe ne s'affiche pas à l'ecran
+        print(c)
 
 
 

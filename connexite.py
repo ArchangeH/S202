@@ -4,12 +4,14 @@ import time
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import random
+import math
 
 
 def graphe(n: int,p:int) -> np.matrix:
     """
     Génère une matrice de taille n remplie de 50% de 0 et 50% de 1
     :param n: taille de la matrice (n x n)
+    :param p: pourcentage de fleches (de 1)
     :return: matrice numpy
     """
 
@@ -67,35 +69,63 @@ def testStatFC2(n,p):
     :param p: pourcentage de 1 dans la matrice
     :return: le % de graphe fortement connexe
     """
-    r=0
-    for i in range(400):
-        if FC(graphe(n,p)) :
+    r = 0
+    for i in range(300):
+        if FC(graphe(n, p)):
             r += 1
-    return (r/400) * 100
+    return (r * 100 / 300)
 
 
+def seuil(n):
+    """
+    Renvoie le seuile necessaire pour atteindre 99% de chances d'obtenir un graph fortement convexe
+    :param n: taille de la matrice
+    :return: % de fleches minimum pour atteindre 99% de chances d'obtenir un graph fortement convexe
+    """
+    p = 100
+    while testStatFC2(n, p / 100) < 99 or p == 0:
+        p -= 1
+    return p
 
 
-"""x=[]
-y=[]
-done = False
-for size in tqdm(range(1,25)):
-    x.append(size)
-    y.append(testStatFC(size))
-    if y[-1] > 99.0 and done == False:
-        plt.text(x[-1], y[-1], size)
-        done = True
-    #print(size,testStatFC(size))
+def graphStatFC():
+    x = []
+    y = []
+    done = False
+    for size in tqdm(range(1, 25)):
+        x.append(size)
+        y.append(testStatFC(size))
 
-plt.plot(x,y)
-plt.grid
-plt.axhline(y=99, color='r')
-plt.xlabel('Taille de la matrice')
-plt.ylabel('% de forte connexite ')
+        # afficher le chiffre ou % de connexe > 99%
+        if y[-1] > 99.0 and done == False:
+            plt.text(x[-1], y[-1], size)
+            done = True
+        # print(size,testStatFC(size))
 
-plt.show()"""
+    plt.plot(x, y)
+    plt.grid()
+    plt.axhline(y=99, color='r')
+    plt.xlabel('Taille de la matrice')
+    plt.ylabel('% de forte connexite sur 400 matrices')
+    plt.show()
 
-x=[]
-y=[]
-z=[]
-for
+
+# graphStatFC()
+def suiteSeuil():
+
+    x = []
+    y = []
+    for size in tqdm(range(10, 40)):
+        x.append(size)
+        y.append(seuil(size))
+    plt.plot(x,y)
+    for x in x:
+        plt.plot(x,y[0]+x, color='red')
+        plt.plot(x,math.pow(x,2),color='green')
+    plt.legend(['% fleches 99% de forte connexité','fonction affine', 'fonction puissance'])
+    plt.xlabel('Taille de la matrice')
+    plt.ylabel('seuil de forte connexité')
+    plt.show()
+
+
+suiteSeuil()

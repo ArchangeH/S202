@@ -42,7 +42,7 @@ for i in tqdm(range(50)):
     plt.scatter(i, tempsBFPP(i + 4), color='yellow')
 
 plt.loglog()
-plt.legend(['Dijkstra','Belman-Ford Parcours profondeur'])
+plt.legend(['Dijkstra', 'Bellman-Ford aléatoire', 'Bellman-Ford Parcours Largeur','Belman-Ford Parcours profondeur'])
 plt.xlabel("Nombre de sommet de la matrice")
 plt.ylabel("Temps pour une matrice de 4 à n+4 sommet")
 
